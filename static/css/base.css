@@ -1,0 +1,46 @@
+body {
+  font: 100% Verdana, Arial, Helvetica, sans-serif;
+  background: #8ecbd6;
+  min-height: 75rem;
+  margin: 0 0 1px 0;
+  padding-bottom: 4.5rem;
+  text-align: left;
+  color: #000000;
+  overflow: scroll;
+  height: 100%;
+}
+
+.header {
+  background: rgb(77,173,189);
+  background: linear-gradient(90deg, rgba(77,173,189,1) 0%, rgba(234,244,246,1) 72%, rgba(77,173,189,1) 100%); 
+}
+
+footer {
+  text-align: center;
+  vertical-align: middle;
+  background: rgb(77,173,189);
+  background: linear-gradient(90deg, rgba(77,173,189,1) 0%, rgba(234,244,246,1) 72%, rgba(77,173,189,1) 100%); 
+}
+
+.navbar {
+    /* fallback for old browsers */
+    background: #ffffff;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(189,223,232,0.8));
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(189,223,232,0.8))
+}
+
+.photo {
+  height: 100vh; 
+  display: grid; 
+  justify-content: center; 
+  align-items: center;
+}
+
+.bg {
+  background-image: url(/static/images/New-Back.jpg);
+  background-size: cover;
+}

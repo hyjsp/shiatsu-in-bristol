@@ -1,0 +1,140 @@
+@charset "UTF-8";
+body {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background:#8ecbd6;
+	margin: 0 0 1px 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+	overflow:scroll;
+	height:100%;
+
+}
+#container {
+	width: 975px;  /* using 20px less than a full 800px width allows for browser chrome and avoids a horizontal scroll bar */
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #999;
+	background-image:url(images/New-Back.jpg);
+	text-align: left; /* this overrides the text-align: center on the body element. */
+}
+#header {
+	 
+	padding: 0px 0 0 0;
+	margin:0;
+	
+	/* this padding matches the left alignment of the elements in the divs that appear beneath it. If an image is used in the #header instead of text, you may want to remove the padding. */
+}
+#header h1 {
+	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+	padding: 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
+	
+}
+#mainContent {
+	padding: 0 80px 20px 20px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
+}
+#sidebar1 {
+	float: right; /* since this element is floated, a width must be given */
+	width: 200px; /* the actual width of this div, in standards-compliant browsers, or standards mode in Internet Explorer will include the padding and border in addition to the width */
+	background: none; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 10px 15px 20px;
+	min-height:600px;
+}
+
+.menunav {
+	background-image:url(images/menu_back.jpg);
+	background-repeat:repeat-x;
+	padding:10px 0 10px 0;
+	margin:auto;
+	text-align:center;
+}
+#footer {
+	padding: 10px 10px 0 10px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
+	background-image: url(images/footer_back.jpg);
+	height:40px;
+}
+#footer p {
+	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
+	padding: 10px 0; /* padding on this element will create space, just as the the margin would have, without the margin collapse issue */
+	font-size:10px;
+	text-align:center;
+}
+.floatleft {
+	float:left;
+}
+.floatright {
+	float:right;
+}
+p {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#333;
+	text-align:left;
+}
+ul {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#000;
+	text-align:left;
+	list-style:disc;
+}
+.floatleftlist {
+	float:left;
+	padding: 5px 80px 20px 20px;
+}
+
+h1 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color:#000;
+	text-align:left;
+	font-weight:bold;
+}
+
+a:link { }
+a:visited { }
+a:hover { }
+a:active { }
+
+a.nav:link {color: #333; text-decoration: none; padding:0px 16px 0px 16px;}
+a.nav:visited {color: #333; text-decoration: none; }
+a.nav:hover {color: #30787F; text-decoration: none; }
+a.nav:active {color: #30787F; }
+.nav {text-align:left;
+padding:5px 5px 5px 5px;
+display:inline;
+}
+
+/* allow room for 3 columns */
+  ul
+  {
+    width: 40em;
+  }
+
+  /* float & allow room for the widest item */
+  ul li
+  {
+    float: left;
+    width: 20em;
+	color:#333
+  }
+
+  /* stop the float */
+  br
+  {
+    clear: left;
+  }
+
+  /* separate the list from subsequent markup */
+  div.wrapper
+  {
+    margin-bottom: 1em;
+  }
+ 
+ #symptoms {
+	 border:0;
+	 background-color:#d7ecef;
+	 width:500px;
+	 text-align:left;
+	padding:5px;
+	margin-left:100px;
+ }
