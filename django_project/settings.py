@@ -32,7 +32,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool('DJANGO_DEBUG', default=False)
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'shiatsu-in-bristol.onrender.com']
-ALLOWED_HOSTS = ["blooming-temple-91426-cb59931334a8.herokuapp.com/", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["blooming-temple-91426-cb59931334a8.herokuapp.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
