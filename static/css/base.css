@@ -12,7 +12,8 @@ body {
 
 .header {
   background: rgb(77,173,189);
-  background: linear-gradient(90deg, rgba(77,173,189,1) 0%, rgba(234,244,246,1) 72%, rgba(77,173,189,1) 100%); 
+  background: linear-gradient(90deg, rgba(77,173,189,1) 0%, rgba(234,244,246,1) 72%, rgba(77,173,189,1) 100%);
+  text-align:center;
 }
 
 footer {
