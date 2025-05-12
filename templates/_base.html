@@ -1,9 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- Adding a viewport tag to get responsive working in firefox -->
+  <!-- Adding a viewport tag to get responsive working in browser -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   
   <title>{% block title %}Matthew Ferin: Shiatsu Practitioner Bristol{% endblock %}</title>
@@ -18,8 +18,11 @@
 
 <body>
     <div class="header">
-        <div class="container">
+        <div class="container d-sm-block d-md-none">
           <img src="{% static 'images/title-tag-sm.png' %}" class="img-fluid text-center" alt="Matthew Ferin FwSS - Bristol Shiatsu Practitioner">
+        </div>
+        <div class="container d-none d-md-block">
+          <img src="{% static 'images/title-tag-lrg.png' %}" class="img-fluid text-center" alt="Matthew Ferin FwSS - Bristol Shiatsu Practitioner">
         </div>
     </div>
     <!-- Navbar-->
@@ -36,16 +39,16 @@
               <a class="nav-link" href="{% url 'shiatsu_massage' %}">Shiatsu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'location' %}">Location</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'shiatsu_fees' %}">Shiatsu Fees</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="{% url 'shiatsu_history' %}">Shiatsu History</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'matthew_ferin' %}">Matthew Ferin</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'location' %}">Location</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'shiatsu_fees' %}">Shiatsu Fees</a>
             </li>
             <li class="'nav-item">
               <a class="nav-link" href="{% url 'links' %}">Links</a>
@@ -66,19 +69,16 @@
     </nav>
     <div class="bg">
       <div class="container">
-        <!-- <div class="row">
-          <div class="col-sm-8 p-3">
-            <h3>Matthew Ferin - Bristol Shiatsu Practitioner</h3>
-          </div>
-        </div> -->
-      </div>
-      <div class ="container">
+      <div class ="container pt-4">
         {% block content %}
         {% endblock content %}
       </div>
-      <footer class="container p-1">
+    </div>
+      <footer class="container-fluid my-4 p-1">
         <!-- <p> Contact me on 07713593950 or enquiries@shiatsu-in-bristol.co.uk</p> -->
-        <p> Copyright Matthew Ferin 2025</p>
+        <p>Contact <a href="mailto:enquiries@shiatsu-in-bristol.co.uk">enquiries@shiatsu-in-bristol.co.uk</a></p>
+        <p>Online Privacy Policy</p>
+        <p>Copyright Matthew Ferin 2025</p>
       </footer>
     </div>
 <!-- Bootstrap JavaScript -->
