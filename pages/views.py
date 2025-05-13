@@ -23,3 +23,6 @@ class MatthewFerinView(TemplateView):
 
 class LinksView(TemplateView):
     template_name = 'links.html'
+
+class NewsView(TemplateView):
+    template_name = 'news.html'

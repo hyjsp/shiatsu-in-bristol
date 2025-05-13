@@ -45,3 +45,7 @@ footer {
   background-image: url(/static/images/New-Back.jpg);
   background-size: cover;
 }
+
+.caption {
+  justify-content: center;
+}

@@ -18,10 +18,10 @@
 
 <body>
     <div class="header">
-        <div class="container d-sm-block d-md-none">
+        <div class="container d-sm-block d-md-none sticky-top">
           <img src="{% static 'images/title-tag-sm.png' %}" class="img-fluid text-center" alt="Matthew Ferin FwSS - Bristol Shiatsu Practitioner">
         </div>
-        <div class="container d-none d-md-block">
+        <div class="container d-none d-md-block sticky-top">
           <img src="{% static 'images/title-tag-lrg.png' %}" class="img-fluid text-center" alt="Matthew Ferin FwSS - Bristol Shiatsu Practitioner">
         </div>
     </div>
@@ -50,10 +50,14 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'shiatsu_fees' %}">Shiatsu Fees</a>
             </li>
-            <li class="'nav-item">
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'links' %}">Links</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'news' %}">News</a>
+            </li>
             <!-- LOGIN SECTION, DISABLED FOR NOW AS NOT NEEDED -->  
-            <!-- </li>
+            <!-- 
             {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a>
@@ -69,15 +73,14 @@
     </nav>
     <div class="bg">
       <div class="container">
-      <div class ="container pt-4">
-        {% block content %}
-        {% endblock content %}
-      </div>
+        <div class ="container pt-4 px-4">
+          {% block content %}
+          {% endblock content %}
+        </div>
     </div>
       <footer class="container-fluid my-4 p-1">
-        <!-- <p> Contact me on 07713593950 or enquiries@shiatsu-in-bristol.co.uk</p> -->
-        <p>Contact <a href="mailto:enquiries@shiatsu-in-bristol.co.uk">enquiries@shiatsu-in-bristol.co.uk</a></p>
-        <p>Online Privacy Policy</p>
+        <p>Call me on 07713593950 or email: <a href="mailto:enquiries@shiatsu-in-bristol.co.uk">enquiries@shiatsu-in-bristol.co.uk</a></p>
+        <p><a href="https://www.websitepolicies.com/policies/view/OCHKlJOj" target="blank">Online Privacy Policy</a></p>
         <p>Copyright Matthew Ferin 2025</p>
       </footer>
     </div>

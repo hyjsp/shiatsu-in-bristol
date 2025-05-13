@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import HomePageView, ShiatsuMassageView, LocationView, ShiatsuFeesView, ShiatsuHistoryView, MatthewFerinView, LinksView
+from .views import HomePageView, ShiatsuMassageView, LocationView, ShiatsuFeesView, ShiatsuHistoryView, MatthewFerinView, LinksView, NewsView
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('shiatsu_history/', ShiatsuHistoryView.as_view(), name='shiatsu_history'),
     path('matthew_ferin/', MatthewFerinView.as_view(), name='matthew_ferin'),
     path('links/', LinksView.as_view(), name='links'),
+    path('news/', NewsView.as_view(), name='news'),
 ]
