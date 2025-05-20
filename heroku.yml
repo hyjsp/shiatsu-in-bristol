@@ -3,7 +3,5 @@ build:
     web: Dockerfile
 release:
   image: web
-  command:
-    - python manage.py collectstatic --noinput
 run:
   web: gunicorn django_project.wsgi
