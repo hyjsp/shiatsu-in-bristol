@@ -32,7 +32,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool('DJANGO_DEBUG', default=False)
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'shiatsu-in-bristol.onrender.com']
-ALLOWED_HOSTS = ["mighty-ocean-74759.herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["mighty-ocean-74759-aeeca1f366cf.herokuapp.com", "localhost", "127.0.0.1"]
 
 # Application definition
 
