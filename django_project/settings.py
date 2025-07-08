@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 # Import dj-database-url at the beginning of the file.
 import dj_database_url
+import sys
+
+# Fix for Python 3.11 secrets.choice compatibility
+import secrets
+if not hasattr(secrets, 'choice'):
+    import random
+    secrets.choice = random.choice
 
 from pathlib import Path
 from environs import Env
@@ -32,7 +39,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool('DJANGO_DEBUG', default=False)
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'shiatsu-in-bristol.onrender.com']
-ALLOWED_HOSTS = ["mighty-ocean-74759-aeeca1f366cf.herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["mighty-ocean-74759-aeeca1f366cf.herokuapp.com", "localhost", "127.0.0.1", "testserver"]
 
 # Application definition
 
@@ -50,11 +57,14 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'allauth',
     'allauth.account',
-    'debug_toolbar',
     # Local
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
 ]
+
+# Add debug_toolbar only when not running tests
+if DEBUG and not any('test' in arg for arg in sys.argv):
+    INSTALLED_APPS.append('debug_toolbar')
 
 MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -67,9 +77,12 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
+
+# Add debug_toolbar middleware only when not running tests
+if DEBUG and not any('test' in arg for arg in sys.argv):
+    MIDDLEWARE.insert(-1, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 CACHE_MIDDLEWARE_ALIAS = "default"
 CACHE_MIDDLEWARE_SECONDS = 604800 			
@@ -184,5 +197,10 @@ import socket
 
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+# Debug toolbar configuration
+DEBUG_TOOLBAR_CONFIG = {
+    'IS_RUNNING_TESTS': any('test' in arg for arg in sys.argv),
+}
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

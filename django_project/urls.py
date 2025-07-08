@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+import sys
 
 urlpatterns = [
     # Django admin
@@ -27,7 +28,7 @@ urlpatterns = [
     path("", include('pages.urls')),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG and not any('test' in arg for arg in sys.argv):
     import debug_toolbar
 
     urlpatterns = [
