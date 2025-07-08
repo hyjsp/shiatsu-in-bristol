@@ -19,6 +19,11 @@ if not hasattr(secrets, 'choice'):
     import random
     secrets.choice = random.choice
 
+import secrets
+if not hasattr(secrets, 'compare_digest'):
+    import hmac
+    secrets.compare_digest = hmac.compare_digest
+
 from pathlib import Path
 from environs import Env
 
