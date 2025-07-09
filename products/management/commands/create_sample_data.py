@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Skip loading sample data during tests
-        if settings.TESTING:
+        if getattr(settings, 'TESTING', False):
             self.stdout.write(
                 self.style.WARNING('Skipping sample data creation during tests.')
             )
