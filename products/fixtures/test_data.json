@@ -1,0 +1,22 @@
+[
+    {
+        "model": "products.category",
+        "pk": 1,
+        "fields": {
+            "name": "Test Category",
+            "description": "Test category for testing"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 1,
+        "fields": {
+            "category": 1,
+            "name": "Test Product",
+            "description": "A test product for testing",
+            "price": "50.00",
+            "duration_minutes": 60,
+            "is_active": true
+        }
+    }
+] 

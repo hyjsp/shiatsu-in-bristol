@@ -24,6 +24,8 @@ urlpatterns = [
     path('nothingtoseehere/', admin.site.urls),
     # User Management
     path('accounts/', include('allauth.urls')),
+    # Products app should come before the root path
+    path('products/', include('products.urls')),
     # Local
     path("", include('pages.urls')),
 ]

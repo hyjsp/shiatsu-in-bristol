@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+{% block content %}
+<h1>Book a Shiatsu Session</h1>
+<ul>
+  {% for product in products %}
+    <li>
+      <a href="{% url 'products:product_detail' product.pk %}">{{ product.name }}</a>
+      - £{{ product.price }}
+      {% if product.duration_minutes %} ({{ product.duration_minutes }} min){% endif %}
+    </li>
+  {% empty %}
+    <li>No sessions available at this time.</li>
+  {% endfor %}
+</ul>
+{% endblock %} 

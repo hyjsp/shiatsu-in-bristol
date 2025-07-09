@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     # Local
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
+    'products.apps.ProductsConfig',
 ]
 
 # Add debug_toolbar only when not running tests

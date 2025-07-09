@@ -11,3 +11,5 @@ django-debug-toolbar==5.2.0
 whitenoise==6.9.0
 gunicorn==23.0.0
 marshmallow==4.0.0
+pytest==8.2.2
+pytest-django==4.11.1

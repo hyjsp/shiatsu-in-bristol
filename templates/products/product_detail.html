@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+{% block content %}
+<h1>{{ product.name }}</h1>
+<p>{{ product.description }}</p>
+<p><strong>Price:</strong> £{{ product.price }}</p>
+{% if product.duration_minutes %}<p><strong>Duration:</strong> {{ product.duration_minutes }} minutes</p>{% endif %}
+
+<h2>Book this session</h2>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Book Now</button>
+</form>
+{% endblock %} 
