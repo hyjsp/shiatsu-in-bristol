@@ -12,6 +12,19 @@ class BookingForm(forms.ModelForm):
             'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Any notes or requests?'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        session_date = cleaned_data.get('session_date')
+        session_time = cleaned_data.get('session_time')
+        if session_date and session_time:
+            qs = Booking.objects.filter(session_date=session_date, session_time=session_time)
+            # Exclude self in case of update
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                raise forms.ValidationError("Sorry, this time slot is already booked. Please choose another.")
+        return cleaned_data
+
     def clean_session_date(self):
         session_date = self.cleaned_data['session_date']
         if session_date < timezone.now().date():

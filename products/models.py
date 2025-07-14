@@ -30,5 +30,8 @@ class Booking(models.Model):
     notes = models.TextField(blank=True)
     google_calendar_event_id = models.CharField(max_length=255, blank=True, null=True, help_text='Google Calendar event ID')
 
+    class Meta:
+        unique_together = ('session_date', 'session_time')
+
     def __str__(self):
         return f"{self.user} - {self.product} on {self.session_date} at {self.session_time}"
