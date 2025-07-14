@@ -34,6 +34,114 @@ footer {
     background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(189,223,232,0.8))
 }
 
+/* Enhanced Navigation Styling */
+.navbar .btn {
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.navbar .btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,123,255,0.3);
+}
+
+.navbar .btn-primary:hover {
+  background: linear-gradient(45deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,123,255,0.4);
+}
+
+.navbar .btn-outline-primary {
+  border: 2px solid #007bff;
+  color: #007bff;
+  background: transparent;
+}
+
+.navbar .btn-outline-primary:hover {
+  background: #007bff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+/* Call to Action Buttons */
+.btn-lg {
+  border-radius: 30px;
+  font-weight: 600;
+  padding: 12px 30px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+  box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #0056b3, #004085);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+}
+
+.btn-success {
+  background: linear-gradient(45deg, #28a745, #1e7e34);
+  border: none;
+  box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+}
+
+.btn-success:hover {
+  background: linear-gradient(45deg, #1e7e34, #155724);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+}
+
+.btn-outline-primary {
+  border: 2px solid #007bff;
+  color: #007bff;
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  background: #007bff;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,123,255,0.3);
+}
+
+/* Hero Section Styling */
+.display-4 {
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+.lead {
+  color: #5a6c7d;
+  font-size: 1.25rem;
+}
+
+/* Call to Action Section */
+.bg-light {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
+  border: 1px solid #dee2e6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar .btn {
+    margin: 5px 0;
+    width: 100%;
+  }
+  
+  .btn-lg {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+}
+
 .photo {
   height: 100vh; 
   display: grid; 

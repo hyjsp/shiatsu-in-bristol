@@ -28,6 +28,7 @@ class Booking(models.Model):
     session_time = models.TimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True)
+    google_calendar_event_id = models.CharField(max_length=255, blank=True, null=True, help_text='Google Calendar event ID')
 
     def __str__(self):
         return f"{self.user} - {self.product} on {self.session_date} at {self.session_time}"

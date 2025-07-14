@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
     'products.apps.ProductsConfig',
+    'calendar_integration.apps.CalendarIntegrationConfig',
 ]
 
 # Add debug_toolbar only when not running tests
