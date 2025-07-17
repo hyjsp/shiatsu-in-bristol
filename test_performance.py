@@ -174,21 +174,22 @@ class DatabaseQueryPerformanceTests(TestCase):
         """Test performance of complex queries"""
         # Create bookings for performance testing
         for i in range(20):
-            # Use a valid date range (January has 31 days)
-            day = 15 + (i % 16)  # This keeps us within January (1-31)
+            # Ensure unique (session_date, session_time) for each booking
+            day = 15 + (i // 8)  # 15, 16, 17
+            hour = 9 + (i % 8)   # 9-16
             Booking.objects.create(
-                product=self.category.products.first(),  # Use correct relationship name
+                product=self.category.products.first(),
                 user=self.user,
                 session_date=date(2024, 1, day),
-                session_time=datetime_time(14, 0),
+                session_time=datetime_time(hour, 0),
                 notes=f'Test booking {i}'
             )
         
         # Measure complex query performance
         start_time = time.time()
         
-        # This would be a complex query in a real application
-        bookings = Booking.objects.select_related('product', 'user').all()
+        # Only count non-admin bookings
+        bookings = Booking.objects.select_related('product', 'user').filter(is_admin_slot=False)
         booking_count = bookings.count()
         
         end_time = time.time()

@@ -284,3 +284,6 @@ yarn-error.log*
 # Local development
 local_settings.py
 settings_local.py
+
+# Ignore documentation log
+Documentation.txt

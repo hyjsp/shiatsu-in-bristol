@@ -33,23 +33,28 @@ class GoogleCalendarService:
             return None
     
     def create_event(self, booking):
-        """Create a calendar event for a booking"""
+        """Create a calendar event for a booking and a 30-min admin break after it. Save both event IDs directly on the instance."""
         try:
             if not self.service:
                 self.authenticate()
                 if not self.service:
                     return None
-            
-            # Format the event details
+            # --- Prevent recursion: skip admin slot bookings ---
+            if getattr(booking, 'is_admin_slot', False):
+                return None
+            # Calculate session start and end
+            session_start = datetime.combine(booking.session_date, booking.session_time)
+            session_end = session_start + timedelta(minutes=booking.product.duration_minutes or 60)
+            # Format the event details for the booking
             event = {
                 'summary': f'Shiatsu Session - {booking.product.name}',
                 'description': f'Client: {booking.user.get_full_name() or booking.user.email}\nNotes: {booking.notes}',
                 'start': {
-                    'dateTime': f'{booking.session_date}T{booking.session_time.strftime("%H:%M")}:00',
+                    'dateTime': session_start.strftime('%Y-%m-%dT%H:%M:00'),
                     'timeZone': 'Europe/London',
                 },
                 'end': {
-                    'dateTime': f'{booking.session_date}T{(datetime.combine(booking.session_date, booking.session_time) + timedelta(minutes=booking.product.duration_minutes or 60)).strftime("%H:%M")}:00',
+                    'dateTime': session_end.strftime('%Y-%m-%dT%H:%M:00'),
                     'timeZone': 'Europe/London',
                 },
                 'reminders': {
@@ -60,14 +65,48 @@ class GoogleCalendarService:
                     ],
                 },
             }
-            
             event = self.service.events().insert(
                 calendarId=self.CALENDAR_ID, 
                 body=event
             ).execute()
-            
-            return event.get('id')
-            
+            event_id = event.get('id')
+            print(f"Created booking event with ID: {event_id}")
+            # --- Only create admin slot and event for non-admin bookings ---
+            admin_start = session_end
+            admin_end = admin_start + timedelta(minutes=30)
+            admin_event = {
+                'summary': 'Admin',
+                'description': f'Admin break after session for {booking.user.get_full_name() or booking.user.email}',
+                'start': {
+                    'dateTime': admin_start.strftime('%Y-%m-%dT%H:%M:00'),
+                    'timeZone': 'Europe/London',
+                },
+                'end': {
+                    'dateTime': admin_end.strftime('%Y-%m-%dT%H:%M:00'),
+                    'timeZone': 'Europe/London',
+                },
+            }
+            admin_event = self.service.events().insert(
+                calendarId=self.CALENDAR_ID,
+                body=admin_event
+            ).execute()
+            admin_event_id = admin_event.get('id')
+            print(f"Created admin event with ID: {admin_event_id}")
+            # Save both event IDs directly on the instance
+            booking.google_calendar_event_id = event_id
+            booking.admin_calendar_event_id = admin_event_id
+            booking.save(update_fields=["google_calendar_event_id", "admin_calendar_event_id"])
+            # --- Create a Booking instance for the admin slot in the DB ---
+            from products.models import Booking as ProductBooking
+            ProductBooking.objects.create(
+                product=booking.product,
+                user=booking.user,
+                session_date=admin_start.date(),
+                session_time=admin_start.time(),
+                notes=f'Admin slot after session for {booking.user.get_full_name() or booking.user.email}',
+                is_admin_slot=True
+            )
+            return event_id
         except Exception as e:
             print(f"Error creating calendar event: {e}")
             return None

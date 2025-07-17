@@ -29,9 +29,27 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True)
     google_calendar_event_id = models.CharField(max_length=255, blank=True, null=True, help_text='Google Calendar event ID')
+    admin_calendar_event_id = models.CharField(max_length=255, blank=True, null=True, help_text='Admin event ID in Google Calendar')
+    is_admin_slot = models.BooleanField(default=False, help_text='Is this booking an Admin slot?')
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('denied', 'Denied'),
+        ('reschedule', 'Reschedule'),
+        ('refund', 'Refund'),
+        ('refunded', 'Refunded'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
     class Meta:
-        unique_together = ('session_date', 'session_time')
+        # Ensure only one session and one admin slot can exist for a given product/date/time
+        constraints = [
+            models.UniqueConstraint(
+                fields=["product", "session_date", "session_time", "is_admin_slot"],
+                name="unique_booking_per_type_per_slot"
+            )
+        ]
 
     def __str__(self):
-        return f"{self.user} - {self.product} on {self.session_date} at {self.session_time}"
+        admin_flag = ' (Admin Slot)' if self.is_admin_slot else ''
+        return f"{self.user} - {self.product} on {self.session_date} at {self.session_time}{admin_flag}"
