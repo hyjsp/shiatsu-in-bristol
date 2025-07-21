@@ -86,4 +86,14 @@ class BookingForm(forms.ModelForm):
         # Prevent booking in the past
         if session_date < today:
             raise forms.ValidationError("Session date cannot be in the past.")
-        return session_date 
+        return session_date
+
+    def clean_notes(self):
+        import bleach
+        notes = self.cleaned_data.get('notes', '')
+        # Remove all HTML tags and attributes
+        notes = bleach.clean(notes, tags=[], attributes={}, strip=True)
+        max_length = 1000
+        if len(notes) > max_length:
+            raise forms.ValidationError(f"Notes cannot exceed {max_length} characters.")
+        return notes 

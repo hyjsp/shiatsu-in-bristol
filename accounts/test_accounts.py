@@ -7,6 +7,7 @@ from datetime import timedelta, time
 from django.contrib.auth import get_user_model
 from products.models import Category, Product, Booking
 from accounts.models import CustomUser
+from accounts.forms import CustomUserCreationForm
 from conftest import created_event_ids
 import uuid
 
@@ -66,6 +67,55 @@ class AccountsFlowTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn('testuser@email.com', mail.outbox[0].to)
+
+class UsernameValidationTests(TestCase):
+    def setUp(self):
+        self.User = get_user_model()
+
+    def test_valid_usernames(self):
+        valid_usernames = [
+            'simpleuser',
+            'user_123',
+            'user-name',
+            'USER123',
+            'user_name-123',
+        ]
+        for uname in valid_usernames:
+            form = CustomUserCreationForm(data={
+                'username': uname,
+                'email': f'{uname}@test.com',
+                'password1': 'testpass123',
+                'password2': 'testpass123',
+            })
+            self.assertTrue(form.is_valid(), f"Should accept valid username: {uname}")
+
+    def test_invalid_usernames(self):
+        invalid_usernames = [
+            'user name',    # space
+            'user@name',   # @
+            'user!name',   # !
+            'user<name>',  # < >
+            'user<script>', # HTML
+            'user.name',   # .
+        ]
+        for uname in invalid_usernames:
+            form = CustomUserCreationForm(data={
+                'username': uname,
+                'email': f'{uname}@test.com',
+                'password1': 'testpass123',
+                'password2': 'testpass123',
+            })
+            self.assertFalse(form.is_valid(), f"Should reject invalid username: {uname}")
+
+    def test_username_length_limit(self):
+        long_username = 'a' * 31
+        form = CustomUserCreationForm(data={
+            'username': long_username,
+            'email': 'long@test.com',
+            'password1': 'testpass123',
+            'password2': 'testpass123',
+        })
+        self.assertFalse(form.is_valid(), "Should reject username over 30 chars")
 
 # --- New Booking/Profile Tests ---
 # (All the booking/profile tests from the current file go here, unchanged)

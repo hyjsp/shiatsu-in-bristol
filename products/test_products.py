@@ -634,3 +634,26 @@ def test_booking_form_past_date_validation(product):
     }, product=product)
     assert not form.is_valid()
     assert 'Bookings must be made at least 24 hours in advance.' in str(form.errors)
+
+@pytest.mark.django_db
+def test_notes_sanitization_and_length():
+    from .forms import BookingForm
+    # HTML/script should be stripped
+    form = BookingForm(data={
+        'session_date': timezone.now().date() + timedelta(days=2),
+        'session_time': time(14, 0),
+        'notes': '<script>alert(1)</script>Hello <b>world</b>'
+    }, product=Product(name='Test', price=10, duration_minutes=60, category=Category(name='TestCat')))
+    form.is_valid()  # Triggers clean_notes
+    cleaned = form.cleaned_data['notes']
+    assert '<script>' not in cleaned and '<b>' not in cleaned
+    assert 'Hello world' in cleaned
+    # Over length should fail
+    long_notes = 'a' * 1001
+    form = BookingForm(data={
+        'session_date': timezone.now().date() + timedelta(days=2),
+        'session_time': time(14, 0),
+        'notes': long_notes
+    }, product=Product(name='Test', price=10, duration_minutes=60, category=Category(name='TestCat')))
+    assert not form.is_valid()
+    assert 'Notes cannot exceed' in str(form.errors)
