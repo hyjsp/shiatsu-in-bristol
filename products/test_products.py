@@ -258,6 +258,16 @@ def test_booking_duplicate_prevention_user(transactional_db, client, user, categ
         booking_data
     )
     assert response1.status_code == 302
+    # Track event IDs for cleanup
+    booking = Booking.objects.filter(
+        product=product1,
+        session_date=session_date,
+        session_time=session_time
+    ).first()
+    if booking and hasattr(booking, 'google_calendar_event_id') and booking.google_calendar_event_id:
+        created_event_ids.append(booking.google_calendar_event_id)
+    if booking and hasattr(booking, 'admin_calendar_event_id') and booking.admin_calendar_event_id:
+        created_event_ids.append(booking.admin_calendar_event_id)
     # Second booking for same slot, different product in same category, should fail
     response2 = client.post(
         reverse('products:product_detail', args=[product2.pk]),
@@ -391,6 +401,11 @@ def test_session_conflict_with_admin_slot(transactional_db, client, user, catego
         session_time=time(14, 0),
         notes=f'TEST_BOOKING_test_session_conflict_with_admin_slot_{uuid.uuid4().hex[:8]}'
     )
+    # Track event IDs for cleanup
+    if session_booking and hasattr(session_booking, 'google_calendar_event_id') and session_booking.google_calendar_event_id:
+        created_event_ids.append(session_booking.google_calendar_event_id)
+    if session_booking and hasattr(session_booking, 'admin_calendar_event_id') and session_booking.admin_calendar_event_id:
+        created_event_ids.append(session_booking.admin_calendar_event_id)
     # Try to book an Admin slot that overlaps (e.g., 14:30-15:00)
     booking_data = {
         'session_date': session_date.strftime('%Y-%m-%d'),

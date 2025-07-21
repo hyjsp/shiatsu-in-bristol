@@ -23,7 +23,7 @@ def test_calendar_service():
     if not os.path.exists('service-account-key.json'):
         print("❌ service-account-key.json not found in project root")
         print("Please create a service account in Google Cloud Console and download the key as 'service-account-key.json'")
-        return False
+        assert False, "service-account-key.json not found in project root"
     
     print("✅ service-account-key.json found")
     
@@ -38,11 +38,10 @@ def test_calendar_service():
             print("✅ Google Calendar API authentication successful")
         else:
             print("⚠️  Google Calendar API authentication failed - calendar integration will be disabled")
-        
-        return True
+        assert calendar_service is not None, "Google Calendar API authentication failed"
     except Exception as e:
         print(f"❌ Error initializing service: {e}")
-        return False
+        assert False, f"Error initializing service: {e}"
 
 if __name__ == "__main__":
     test_calendar_service() 
