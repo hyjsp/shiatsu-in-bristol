@@ -4,7 +4,7 @@
 <ul>
   {% for product in products %}
     <li>
-      <a href="{% url 'products:product_detail' product.pk %}">{{ product.name }}</a>
+      <a href="{% url 'bookings:product_detail' product.pk %}">{{ product.name }}</a>
       - £{{ product.price }}
       {% if product.duration_minutes %} ({{ product.duration_minutes }} min){% endif %}
     </li>

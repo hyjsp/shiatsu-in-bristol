@@ -8,5 +8,5 @@
   <li><strong>Time:</strong> {{ booking.session_time }}</li>
   <li><strong>Notes:</strong> {{ booking.notes|default:'None' }}</li>
 </ul>
-<a href="{% url 'products:product_list' %}" class="btn btn-secondary">Back to Sessions</a>
+<a href="{% url 'bookings:product_list' %}" class="btn btn-secondary">Back to Sessions</a>
 {% endblock %} 

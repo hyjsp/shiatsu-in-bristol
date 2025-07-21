@@ -23,7 +23,7 @@ def product_detail(request, pk):
             try:
                 booking.save()
                 messages.success(request, 'Your session has been booked!')
-                return redirect('products:booking_confirmation', pk=booking.pk)
+                return redirect('bookings:booking_confirmation', pk=booking.pk)
             except IntegrityError:
                 form.add_error(None, 'Sorry, this time slot is already booked. Please choose another.')
         else:

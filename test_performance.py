@@ -36,7 +36,7 @@ class TemplateRenderingPerformanceTests(TestCase):
         # Measure rendering time
         start_time = time.time()
         
-        response = self.client.get(reverse('products:product_list'))
+        response = self.client.get(reverse('bookings:product_list'))
         
         end_time = time.time()
         rendering_time = end_time - start_time
@@ -54,7 +54,7 @@ class TemplateRenderingPerformanceTests(TestCase):
         # Measure rendering time
         start_time = time.time()
         
-        response = self.client.get(reverse('products:product_detail', args=[self.product.pk]))
+        response = self.client.get(reverse('bookings:product_detail', args=[self.product.pk]))
         
         end_time = time.time()
         rendering_time = end_time - start_time
@@ -70,7 +70,7 @@ class TemplateRenderingPerformanceTests(TestCase):
         # Measure base template rendering
         start_time = time.time()
         
-        response = self.client.get(reverse('products:product_list'))
+        response = self.client.get(reverse('bookings:product_list'))
         
         end_time = time.time()
         base_rendering_time = end_time - start_time
@@ -94,7 +94,7 @@ class TemplateRenderingPerformanceTests(TestCase):
         # Measure rendering time with large dataset
         start_time = time.time()
         
-        response = self.client.get(reverse('products:product_list'))
+        response = self.client.get(reverse('bookings:product_list'))
         
         end_time = time.time()
         rendering_time = end_time - start_time
@@ -132,7 +132,7 @@ class DatabaseQueryPerformanceTests(TestCase):
         reset_queries()
         
         # Make request
-        response = self.client.get(reverse('products:product_list'))
+        response = self.client.get(reverse('bookings:product_list'))
         
         # Get query count
         query_count = len(connection.queries)
@@ -159,7 +159,7 @@ class DatabaseQueryPerformanceTests(TestCase):
         # Measure query performance
         start_time = time.time()
         
-        response = self.client.get(reverse('products:product_list'))
+        response = self.client.get(reverse('bookings:product_list'))
         
         end_time = time.time()
         query_time = end_time - start_time
@@ -227,12 +227,12 @@ class CachingPerformanceTests(TestCase):
         
         # First request (cache miss)
         start_time = time.time()
-        response1 = self.client.get(reverse('products:product_list'))
+        response1 = self.client.get(reverse('bookings:product_list'))
         first_request_time = time.time() - start_time
         
         # Second request (cache hit)
         start_time = time.time()
-        response2 = self.client.get(reverse('products:product_list'))
+        response2 = self.client.get(reverse('bookings:product_list'))
         second_request_time = time.time() - start_time
         
         # Both responses should be successful
@@ -250,14 +250,14 @@ class CachingPerformanceTests(TestCase):
         cache.clear()
         
         # First request
-        response1 = self.client.get(reverse('products:product_list'))
+        response1 = self.client.get(reverse('bookings:product_list'))
         
         # Update product
         self.product.name = 'Updated Session'
         self.product.save()
         
         # Second request should show updated content
-        response2 = self.client.get(reverse('products:product_list'))
+        response2 = self.client.get(reverse('bookings:product_list'))
         
         # Both responses should be successful
         self.assertEqual(response1.status_code, 200)
@@ -312,7 +312,7 @@ class LoadTestingScenarios(TestCase):
         
         responses = []
         for i in range(10):
-            response = self.client.get(reverse('products:product_list'))
+            response = self.client.get(reverse('bookings:product_list'))
             responses.append(response)
         
         end_time = time.time()
@@ -389,7 +389,7 @@ class LoadTestingScenarios(TestCase):
         # Make multiple requests and measure response times
         for i in range(10):
             start_time = time.time()
-            response = self.client.get(reverse('products:product_list'))
+            response = self.client.get(reverse('bookings:product_list'))
             end_time = time.time()
             
             response_time = end_time - start_time

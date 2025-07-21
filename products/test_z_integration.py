@@ -37,13 +37,13 @@ class IntegrationBookingFlowTest(TestCase):
             is_active=True
         )
         # 1. User visits product list
-        response = self.client.get(reverse('products:product_list'))
+        response = self.client.get(reverse('bookings:product_list'))
         self.assertEqual(response.status_code, 200)
         self.assertIn('Integration Test Session', response.content.decode())
-        self.assertIn(f'href="/products/{product.pk}/"', response.content.decode())
+        self.assertIn(f'href="/bookings/{product.pk}/"', response.content.decode())
 
         # 2. User clicks on product (simulated by visiting detail page)
-        response = self.client.get(reverse('products:product_detail', args=[product.pk]))
+        response = self.client.get(reverse('bookings:product_detail', args=[product.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertIn('Book this session', response.content.decode())
 
@@ -55,7 +55,7 @@ class IntegrationBookingFlowTest(TestCase):
             'session_time': '14:00',
             'notes': unique_notes
         }
-        response = self.client.post(reverse('products:product_detail', args=[product.pk]), booking_data)
+        response = self.client.post(reverse('bookings:product_detail', args=[product.pk]), booking_data)
         self.assertEqual(response.status_code, 302)
         booking = Booking.objects.filter(notes=unique_notes).first()
         self.assertIsNotNone(booking)
@@ -65,6 +65,6 @@ class IntegrationBookingFlowTest(TestCase):
         if hasattr(booking, 'admin_calendar_event_id') and booking.admin_calendar_event_id:
             created_event_ids.append(booking.admin_calendar_event_id)
         # 4. Booking confirmation page
-        response = self.client.get(reverse('products:booking_confirmation', args=[booking.pk]))
+        response = self.client.get(reverse('bookings:booking_confirmation', args=[booking.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertIn('Booking Confirmed', response.content.decode()) 

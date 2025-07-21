@@ -26,7 +26,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/', include(('accounts.urls', 'account'), namespace='account')),
     # Products app should come before the root path
-    path('products/', include('products.urls')),
+    path('bookings/', include('products.urls')),
     # Local
     path("", include('pages.urls')),
 ]

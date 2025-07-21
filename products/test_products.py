@@ -61,7 +61,7 @@ def test_product_list_view(transactional_db, client, listview_category):
         is_active=True
     )
     
-    response = client.get(reverse('products:product_list'))
+    response = client.get(reverse('bookings:product_list'))
     assert response.status_code == 200
     
     # Check that the page loads correctly with the expected title
@@ -82,7 +82,7 @@ def test_product_detail_view_authenticated(transactional_db, client, user, categ
         is_active=True
     )
     client.login(email='test@example.com', password='testpass123')
-    response = client.get(reverse('products:product_detail', args=[product.pk]))
+    response = client.get(reverse('bookings:product_detail', args=[product.pk]))
     assert response.status_code == 200
     assert 'DetailProduct' in response.content.decode()
     assert 'Book this session' in response.content.decode()
@@ -96,12 +96,12 @@ def test_product_detail_view_unauthenticated(transactional_db, client, category)
         category=category,
         is_active=True
     )
-    response = client.get(reverse('products:product_detail', args=[product.pk]))
+    response = client.get(reverse('bookings:product_detail', args=[product.pk]))
     assert response.status_code == 302  # Redirect to login
 
 def test_product_detail_view_invalid_pk(transactional_db, client, user):
     client.login(email='test@example.com', password='testpass123')
-    response = client.get(reverse('products:product_detail', args=[999]))
+    response = client.get(reverse('bookings:product_detail', args=[999]))
     assert response.status_code == 404
 
 def test_booking_creation_success(transactional_db, client, user, category):
@@ -121,7 +121,7 @@ def test_booking_creation_success(transactional_db, client, user, category):
         'notes': f'TEST_BOOKING_test_booking_creation_success_{uuid.uuid4().hex[:8]}'
     }
     response = client.post(
-        reverse('products:product_detail', args=[product.pk]),
+        reverse('bookings:product_detail', args=[product.pk]),
         booking_data
     )
     assert response.status_code == 302  # Redirect to confirmation
@@ -156,7 +156,7 @@ def test_booking_creation_invalid_data(transactional_db, client, user, category)
     print('DEBUG: yesterday =', yesterday, type(yesterday))
     print('DEBUG: booking_data =', booking_data)
     response = client.post(
-        reverse('products:product_detail', args=[product.pk]),
+        reverse('bookings:product_detail', args=[product.pk]),
         booking_data
     )
     assert response.status_code == 200  # Form errors, stay on page
@@ -181,7 +181,7 @@ def test_booking_confirmation_view(transactional_db, client, user, category):
         session_time=session_time,
         notes=f'TEST_BOOKING_test_booking_confirmation_view_{uuid.uuid4().hex[:8]}'
     )
-    response = client.get(reverse('products:booking_confirmation', args=[booking.pk]))
+    response = client.get(reverse('bookings:booking_confirmation', args=[booking.pk]))
     assert response.status_code == 200
     assert 'Booking Confirmed!' in response.content.decode()
     assert 'ConfProduct' in response.content.decode()
@@ -214,7 +214,7 @@ def test_booking_confirmation_view_wrong_user(transactional_db, client, user, ca
         session_time=session_time,
         notes=f'TEST_BOOKING_test_booking_confirmation_view_wrong_user_{uuid.uuid4().hex[:8]}'
     )
-    response = client.get(reverse('products:booking_confirmation', args=[booking.pk]))
+    response = client.get(reverse('bookings:booking_confirmation', args=[booking.pk]))
     assert response.status_code == 404  # Should not be accessible
     if hasattr(booking, 'google_calendar_event_id') and booking.google_calendar_event_id:
         created_event_ids.append(booking.google_calendar_event_id)
@@ -254,7 +254,7 @@ def test_booking_duplicate_prevention_user(transactional_db, client, user, categ
     }
     # First booking should succeed (product1)
     response1 = client.post(
-        reverse('products:product_detail', args=[product1.pk]),
+        reverse('bookings:product_detail', args=[product1.pk]),
         booking_data
     )
     assert response1.status_code == 302
@@ -270,7 +270,7 @@ def test_booking_duplicate_prevention_user(transactional_db, client, user, categ
         created_event_ids.append(booking.admin_calendar_event_id)
     # Second booking for same slot, different product in same category, should fail
     response2 = client.post(
-        reverse('products:product_detail', args=[product2.pk]),
+        reverse('bookings:product_detail', args=[product2.pk]),
         booking_data
     )
     assert response2.status_code == 200
@@ -317,7 +317,7 @@ def test_concurrent_booking_attempts(transactional_db, client, user, category):
             c = Client()
             c.login(email='test@example.com', password='testpass123')
             response = c.post(
-                reverse('products:product_detail', args=[product_pk]),
+                reverse('bookings:product_detail', args=[product_pk]),
                 booking_data
             )
             results.append(response.status_code)
@@ -374,7 +374,7 @@ def test_admin_slot_conflict_with_session(transactional_db, client, user, catego
         'notes': f'TEST_BOOKING_test_admin_slot_conflict_with_session_{uuid.uuid4().hex[:8]}'
     }
     response = client.post(
-        reverse('products:product_detail', args=[product.pk]),
+        reverse('bookings:product_detail', args=[product.pk]),
         booking_data
     )
     assert response.status_code == 200
@@ -413,7 +413,7 @@ def test_session_conflict_with_admin_slot(transactional_db, client, user, catego
         'notes': 'Admin slot for test_session_conflict_with_admin_slot'
     }
     response = client.post(
-        reverse('products:product_detail', args=[product.pk]),
+        reverse('bookings:product_detail', args=[product.pk]),
         booking_data
     )
     assert response.status_code == 200
@@ -450,7 +450,7 @@ def test_booking_duplicate_prevention_admin(transactional_db, user, product):
         notes='Duplicate booking'
     )
     factory = RequestFactory()
-    request = factory.post('/admin/products/booking/add/')
+    request = factory.post('/admin/bookings/booking/add/')
     request.user = admin_user
     # Should raise IntegrityError and not save
     with pytest.raises(IntegrityError):
@@ -581,7 +581,7 @@ def test_concurrent_booking_attempts(transactional_db, client, user, category):
             c = Client()
             c.login(email='test@example.com', password='testpass123')
             response = c.post(
-                reverse('products:product_detail', args=[product.pk]),
+                reverse('bookings:product_detail', args=[product.pk]),
                 booking_data
             )
             results.append(response.status_code)
