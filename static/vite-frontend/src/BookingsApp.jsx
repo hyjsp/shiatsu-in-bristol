@@ -7,7 +7,7 @@ console.log('BookingsApp loaded');
 const SESSION_LENGTHS = [30, 60, 90];
 const API_URL = '/api/bookings/slots/';
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; // No Sunday
-const SLOT_HOURS = [9, 11, 13, 15, 17]; // 9am, 11am, 1pm, 3pm, 5pm
+const SLOT_HOURS = Array.from({ length: 9 }, (_, i) => 9 + i); // 9, 10, 11, 12, 13, 14, 15, 16, 17
 
 function getMonday(date) {
   // Returns the Monday of the week for a given date
@@ -262,7 +262,12 @@ function BookingsApp() {
                                 return (
                                   <td key={colIdx}>
                                     <button
-                                      className={`btn btn-sm ${slot.reserved ? 'btn-secondary' : isSelected ? 'btn-success' : 'btn-outline-primary'}`}
+                                      className={`btn btn-sm rounded-pill ${
+                                        slot.reserved
+                                          ? 'btn-danger text-white'
+                                          : 'btn-success text-white'
+                                      }`}
+                                      style={{ minWidth: 90, fontWeight: 500 }}
                                       disabled={slot.reserved}
                                       onClick={() => handleSlotSelect(slot)}
                                     >
